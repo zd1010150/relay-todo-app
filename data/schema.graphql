@@ -5,4 +5,11 @@ type Query {
 type User {
   id: ID!
   fav: String!
+  todos: [TODO]
+}
+
+type TODO {
+  id: String!
+  title: String!
+  isComplete: Boolean!
 }

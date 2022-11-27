@@ -1,4 +1,4 @@
-import { GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLList, GraphQLString } from "graphql";
 // @flow
 /* eslint flowtype/require-return-type: 'off' */
 /**
@@ -14,6 +14,7 @@ import { GraphQLString } from "graphql";
  */
 
 import { GraphQLNonNull, GraphQLObjectType, GraphQLID } from "graphql";
+import { toEditorSettings } from "typescript";
 
 // mock users
 const users = [
@@ -36,6 +37,34 @@ export const fetchUser = (id: string): Promise<any> => {
   });
 };
 
+const todos = [{
+  id: 'item1',
+  title: 'Item title 1',
+  isComplete: true,
+}, {
+  id: 'item2',
+  title: 'Item title 2',
+  isComplete: false,
+}];
+
+const GraphQLTODO = new GraphQLObjectType({
+  name: "TODO",
+  fields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (_): string => _.id,
+    },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (_): string => _.title,
+    },
+    isComplete: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve: (_): boolean => _.isComplete
+    }
+  },
+});
+
 export const GraphQLUser = new GraphQLObjectType({
   name: "User",
   fields: {
@@ -47,5 +76,9 @@ export const GraphQLUser = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: (_): string => _.fav,
     },
+    todos: {
+      type: new GraphQLList(GraphQLTODO),
+      resolve: (_) => todos
+    }
   },
 });
