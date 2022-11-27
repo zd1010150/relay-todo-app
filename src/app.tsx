@@ -4,13 +4,9 @@ import type { HeaderProps, AppProps } from './types';
 
 import { USER_QUERY } from './userQuery';
 import Todos from './components/todos';
+import Header from './components/header';
 
-const Header = (props: HeaderProps) => {
-    const data = usePreloadedQuery(USER_QUERY, props.appQueryRef);
-    return <div>
-        {data.user?.id} - {data.user?.fav}
-    </div>
-}
+
 
 const App = ({ queryRef }: AppProps) => {
     const data = usePreloadedQuery(USER_QUERY, queryRef);
@@ -18,7 +14,7 @@ const App = ({ queryRef }: AppProps) => {
     console.log(data);
     return (
         <>
-            <Header appQueryRef={queryRef} />
+            {data?.user && <Header user={data.user} />}
             {data?.user && <Todos user={data.user} />}
 
         </>

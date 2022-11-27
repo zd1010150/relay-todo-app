@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7875e0889de1cfff546a200397f1ed2f>>
+ * @generated SignedSource<<188d6880a3ac43735d513a2e7667c3b9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,9 +15,7 @@ export type userQuery_app_Query$variables = {
 };
 export type userQuery_app_Query$data = {
   readonly user: {
-    readonly fav: string;
-    readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"todos_fragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"header_fragment" | "todos_fragment">;
   } | null;
 };
 export type userQuery_app_Query = {
@@ -46,13 +44,6 @@ v2 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "fav",
-  "storageKey": null
 };
 return {
   "fragment": {
@@ -69,8 +60,11 @@ return {
         "name": "user",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "header_fragment"
+          },
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -98,7 +92,13 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "fav",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -131,16 +131,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6fad93b219377d5871253ac2db7e1464",
+    "cacheID": "349ca86ae3b9ed9cf255b8468f754323",
     "id": null,
     "metadata": {},
     "name": "userQuery_app_Query",
     "operationKind": "query",
-    "text": "query userQuery_app_Query(\n  $id: String\n) {\n  user(id: $id) {\n    id\n    fav\n    ...todos_fragment\n  }\n}\n\nfragment todo_fragment on TODO {\n  id\n  title\n  isComplete\n}\n\nfragment todos_fragment on User {\n  todos {\n    id\n    ...todo_fragment\n  }\n}\n"
+    "text": "query userQuery_app_Query(\n  $id: String\n) {\n  user(id: $id) {\n    ...header_fragment\n    ...todos_fragment\n    id\n  }\n}\n\nfragment header_fragment on User {\n  id\n  fav\n}\n\nfragment todo_fragment on TODO {\n  id\n  title\n  isComplete\n}\n\nfragment todos_fragment on User {\n  todos {\n    id\n    ...todo_fragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "89191c00dcb74d1189c72a681edfb9c2";
+(node as any).hash = "664a6a9197ce96411c917588d0c5c9c1";
 
 export default node;
