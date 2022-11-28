@@ -13,3 +13,19 @@ type TODO {
   title: String!
   isComplete: Boolean!
 }
+
+type Mutation {
+  addTodo(input: AddTODOInput!): AddTODOPayload
+}
+
+type AddTODOPayload {
+  id: ID!
+  title: String!
+  isComplete: Boolean!
+  clientMutationId: String
+}
+
+input AddTODOInput {
+  title: String!
+  clientMutationId: String
+}

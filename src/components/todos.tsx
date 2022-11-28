@@ -17,7 +17,6 @@ const Todos = (props: Props) => {
         }
     }
 `, props.user);
-    console.log(data.todos, "todos")
     if (!isNull(data.todos)) {
         return <>
             {data.todos.map(d => {

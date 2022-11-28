@@ -14,6 +14,7 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 import { UserQuery } from "./queries/UserQuery";
+import { AddTODOMutation } from './nodes';
 
 const Query = new GraphQLObjectType({
   name: "Query",
@@ -22,6 +23,14 @@ const Query = new GraphQLObjectType({
   },
 });
 
+const Mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: () => ({
+    addTodo: AddTODOMutation,
+  }),
+});
+
 export const schema = new GraphQLSchema({
   query: Query,
+  mutation: Mutation
 });

@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLList, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLList, GraphQLString, } from "graphql";
 // @flow
 /* eslint flowtype/require-return-type: 'off' */
 /**
@@ -12,7 +12,7 @@ import { GraphQLBoolean, GraphQLList, GraphQLString } from "graphql";
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
+import { mutationWithClientMutationId } from 'graphql-relay';
 import { GraphQLNonNull, GraphQLObjectType, GraphQLID } from "graphql";
 import { toEditorSettings } from "typescript";
 
@@ -38,12 +38,12 @@ export const fetchUser = (id: string): Promise<any> => {
 };
 
 const todos = [{
-  id: 'item1',
-  title: 'Item title 1',
+  id: 'item0',
+  title: 'Item title 0',
   isComplete: true,
 }, {
-  id: 'item2',
-  title: 'Item title 2',
+  id: 'item1',
+  title: 'Item title 1',
   isComplete: false,
 }];
 
@@ -81,4 +81,30 @@ export const GraphQLUser = new GraphQLObjectType({
       resolve: (_) => todos
     }
   },
+});
+
+export const AddTODOMutation = mutationWithClientMutationId({
+  name: 'AddTODO',
+  inputFields: {
+    title: { type: new GraphQLNonNull(GraphQLString) }
+  },
+  outputFields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+      resolve: (_: any): string => _.id,
+    },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (_: any): string => _.title,
+    },
+    isComplete: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve: (_: any): boolean => _.isComplete
+    }
+  },
+  mutateAndGetPayload: ({ title }) => {
+    const newTodo = { id: `item${todos.length}`, title, isComplete: false };
+    todos.unshift(newTodo);
+    return newTodo
+  }
 });
